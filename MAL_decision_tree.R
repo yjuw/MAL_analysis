@@ -2,7 +2,7 @@ library(rpart)
 library(rpart.plot)
 library(caret)
 library(tidyr)
-
+library(pROC)
 #summary(mal_df)
 #'type', 'source', 'episodes', 'status', 'airing',
 #       'aired_string', 'aired', 'duration', 'rating', 'score', 'scored_by',
@@ -94,8 +94,14 @@ rpart.rules(default.ct, style = "tallw")
 #confusionMatrix(default.ct.point.pred, factor(valid.df$popularity))
 
 
-
-
-
-
-
+print("Logistic Regression")
+logit.reg <- glm(isPopular~type+episodes+status+airing+show_duration_months+
+                   premiered_season+
+                   licensor+studio+producer+duration+source+
+                   Comedy+Supernatural+Romance+Shounen+Parody+School+Magic+Shoujo+Drama+Fantasy+Kids+
+                   Action+Music+SliceofLife+Josei+Harem+ShounenAi+Adventure+SuperPower+SciFi+Ecchi+
+                   Seinen+MartialArts+Game+Sports+Demons+Historical+Horror+Mystery+Samurai+Hentai+Space+
+                   Mecha+Psychological+Police+Vampire+Military+Thriller+Yaoi+Cars+ShoujoAi+Dementia+Yuri,
+                 data = train.df, family = "binomial")
+print("model is done")
+summary(logit.reg)
